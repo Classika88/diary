@@ -12,7 +12,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async ({ username, password }) => {
     try {
-      const { data } = await axios.post("http://localhost:3002/api/auth/register", {
+      const { data } = await axios.post("/auth/register", {
         username,
         password,
       });
@@ -24,14 +24,14 @@ export const registerUser = createAsyncThunk(
     } catch (err) {
       console.log(err);
     }
-  }
+  },
 );
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async ({ username, password }) => {
       try {
-        const { data } = await axios.post("http://localhost:3002/api/auth/login", {
+        const { data } = await axios.post("/auth/login", {
           username,
           password,
         });
@@ -42,14 +42,14 @@ export const loginUser = createAsyncThunk(
       } catch (err) {
         console.log(err);
       }
-    }
+    },
   );
 
   export const getMe = createAsyncThunk(
-    "auth/me",
+    "auth/loginUser",
     async () => {
       try {
-        const { data } = await axios.get("http://localhost:3002/api/auth/me");
+        const { data } = await axios.get("/auth/me");
         return data;
       } catch (err) {
         console.log(err);
@@ -76,7 +76,6 @@ export const authSlice = createSlice({
     },
     [registerUser.fulfilled]: (state, action) => {
       state.isLoading = false
-      console.log(action)
       state.status = action.payload.message
       state.user = action.payload.user
       state.token = action.payload.token
